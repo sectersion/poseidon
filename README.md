@@ -1,5 +1,5 @@
 # PoSeiDon
-![RTL Simulation](https://github.com/YOURUSER/YOURREPO/actions/workflows/sim.yml/badge.svg)
+![RTL Simulation](https://github.com/sectersion/poseidon/actions/workflows/sim.yml/badge.svg)
 ## open source RV32I based CPU
 Refer to PSD.md for more information
 ## Testing States
