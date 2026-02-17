@@ -7,3 +7,6 @@ Refer to PSD.md for more information
 - Register File: ![RF](https://img.shields.io/badge/tests-passing-brightgreen)
 - IF Stage: ![Static Badge](https://img.shields.io/badge/tests-failing-red)
 
+## TODO:
+- specify top module in /.github/workflows/synth.yml
+- 
