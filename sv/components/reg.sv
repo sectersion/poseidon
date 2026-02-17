@@ -1,4 +1,4 @@
-module reg_en #(
+module reg #(
     parameter WIDTH = 32,
     parameter RESET_VALUE = 0
 )(
