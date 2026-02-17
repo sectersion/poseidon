@@ -1,37 +1,29 @@
-name: RTL Simulation
+name: Sim
 
 on:
   push:
+    branches: ["main"]
   pull_request:
 
 jobs:
-  verilator:
+  verilate:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v3
 
+      # Setup verilator (you can use official package or a setup action)
       - name: Install Verilator
-        run: |
-          sudo apt update
-          sudo apt install -y verilator
+        run: sudo apt-get update && sudo apt-get install verilator -y
 
-      - name: Show Verilator version
-        run: verilator --version
-
-      - name: Run PC Testbench
+      - name: Run Makefile Sim
         run: |
-          verilator --binary --build \
-            sv/pc.sv \
-            sv/testbench/pc_tb.sv \
-            --top-module pc_tb
-          ./obj_dir/Vpc_tb
+          make clean
+          make sim
 
-      - name: Run Regfile Testbench
-        run: |
-          verilator --binary --build \
-            sv/components/regfile.sv \
-            sv/testbench/regfile_tb.sv \
-            --top-module regfile_tb
-          ./obj_dir/Vregfile_tb
+      - name: Archive waveform (if any)
+        if: success()
+        uses: actions/upload-artifact@v3
+        with:
+          name: sim-waveforms
+          path: obj_dir/**/*.vcd
