@@ -27,7 +27,7 @@ jobs:
         run: make synth
 
       - name: Upload Dev Build
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: dev-build-${{ env.DEV_VERSION }}
           path: builds/dev/${{ env.DEV_VERSION }}/
@@ -53,7 +53,7 @@ jobs:
           yosys -p "read_verilog $(find . -name '*.sv') ; synth -top top_module ; write_json builds/final/design.json"
 
       - name: Upload Final Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: final-build
           path: builds/final/
