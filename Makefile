@@ -24,7 +24,7 @@ all: sim
 .PHONY: sim
 sim:
 	@echo "=== Running Simulation ==="
-	$(VERILATOR) --cc --exe --build --trace $(SV_FILES)
+	$(VERILATOR) --cc --exe --build --trace --timing $(SV_FILES)
 
 # =========================
 # Lint (Verilator lint mode)
