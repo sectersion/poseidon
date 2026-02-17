@@ -1,0 +1,59 @@
+name: Synthesis Pipeline
+
+on:
+  workflow_run:
+    workflows: ["Simulate & Test"]
+    types:
+      - completed
+
+jobs:
+  synth-dev:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+
+    env:
+      DEV_VERSION: v1.1
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install Tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install verilator yosys -y
+
+      - name: Synthesis (dev)
+        # Picks $DEV_VERSION from env
+        run: make synth
+
+      - name: Upload Dev Build
+        uses: actions/upload-artifact@v3
+        with:
+          name: dev-build-${{ env.DEV_VERSION }}
+          path: builds/dev/${{ env.DEV_VERSION }}/
+
+  synth-final:
+    needs: synth-dev
+    runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/main' }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install Tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install verilator yosys -y
+
+      - name: Final Synthesis
+        run: |
+          # You can bump version or tag here
+          mkdir -p builds/final/
+          # If your synthesis tool script differs for final, replace below
+          yosys -p "read_verilog $(find . -name '*.sv') ; synth -top top_module ; write_json builds/final/design.json"
+
+      - name: Upload Final Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: final-build
+          path: builds/final/
