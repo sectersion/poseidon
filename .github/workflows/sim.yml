@@ -1,0 +1,37 @@
+name: RTL Simulation
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  verilator:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Verilator
+        run: |
+          sudo apt update
+          sudo apt install -y verilator
+
+      - name: Show Verilator version
+        run: verilator --version
+
+      - name: Run PC Testbench
+        run: |
+          verilator --binary --build \
+            sv/pc.sv \
+            sv/testbench/pc_tb.sv \
+            --top-module pc_tb
+          ./obj_dir/Vpc_tb
+
+      - name: Run Regfile Testbench
+        run: |
+          verilator --binary --build \
+            sv/components/regfile.sv \
+            sv/testbench/regfile_tb.sv \
+            --top-module regfile_tb
+          ./obj_dir/Vregfile_tb
