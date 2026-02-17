@@ -1,3 +1,5 @@
+`timescale 1ns/1ps
+
 module mux #(
     parameter WIDTH = 32,
     parameter INPUTS = 2

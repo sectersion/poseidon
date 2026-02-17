@@ -1,3 +1,5 @@
+`timescale 1ns/1ps
+
 module dmux #(
     parameter WIDTH  = 32,
     parameter OUTPUTS = 2

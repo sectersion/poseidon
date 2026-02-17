@@ -1,3 +1,5 @@
+`timescale 1ns/1ps
+
 module register #(
     parameter WIDTH = 32,
     parameter RESET_VALUE = 0

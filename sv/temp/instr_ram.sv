@@ -1,3 +1,5 @@
+`timescale 1ns/1ps
+
 module instr_mem (
     input  logic [31:0] addr,
     output logic [31:0] instr
