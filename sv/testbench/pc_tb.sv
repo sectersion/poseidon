@@ -2,6 +2,12 @@
 
 module pc_tb;
 
+initial begin
+    $dumpfile("pc_tb.vcd");
+    $dumpvars(0, pc_tb);
+end
+
+
 logic clk;
 logic rst;
 logic stall;
